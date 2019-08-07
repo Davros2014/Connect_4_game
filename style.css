@@ -1,0 +1,744 @@
+@font-face {
+    font-family: "streamsterregular";
+    src: url("fonts/Streamster/streamster-webfont.woff2") format("woff2"),
+        url("fonts/Streamster/streamster-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "karmatic_arcaderegular";
+    src: url("fonts/karmatic-arcade/ka1-webfont.woff2") format("woff2"),
+        url("fonts/karmatic-arcade/ka1-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "feast_of_flesh_bbitalic";
+    src: url("fonts/Feast_of_Flesh/feasfbi_-webfont.woff2") format("woff2"),
+        url("fonts/Feast_of_Flesh/feasfbi_-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "arcadeclassicregular";
+    src: url("fonts/Arcade Classic/arcadeclassic-webfont.woff2") format("woff2"),
+        url("fonts/Arcade Classic/arcadeclassic-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* =======================================
+=============== INTRO PAGE ================
+======================================= */
+
+.introPage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: url("assets/80s-wallpaper.jpeg") no-repeat rgba(0, 0, 0, 1);
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+}
+.introPage::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.5);
+}
+.introPage.animated {
+    animation-name: zoomOut;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    opacity: 1;
+    transform: translateX(-50%);
+    transform: translateY(50%);
+    display: none;
+}
+.introPage.animated::after {
+    display: none;
+}
+@keyframes zoomOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.25;
+        transform: scale(2);
+        background: black;
+        display: none;
+        z-index: -100;
+    }
+}
+.introContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+}
+.logo {
+    width: 45vw;
+    height: auto;
+    animation-name: slideInLogo;
+    animation-duration: 3s;
+    animation-delay: 1s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    z-index: 10000;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    top: -50%;
+}
+@keyframes slideInLogo {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        top: 20%;
+    }
+}
+
+.spiced {
+    font-family: "streamsterregular";
+    font-size: calc(2rem + 1vw);
+    text-align: center;
+    margin-bottom: 0;
+    color: hotpink;
+    z-index: 10000;
+    animation-name: spicedslideInLogo;
+    animation-duration: 1s;
+    animation-delay: 1.5s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10%;
+    margin: 0 auto;
+    line-height: 1.4rem;
+}
+@keyframes spicedslideInLogo {
+    0% {
+        opacity: 0;
+        transform: translateY(0%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-50%);
+    }
+}
+
+.start {
+    z-index: 10000;
+    text-align: center;
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(1rem + 1vw);
+    color: white;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 15%;
+    top: 85%;
+    animation-name: blink182;
+    animation-duration: 0.5s;
+    animation-delay: 6s;
+    animation-timing-function: linear;
+    animation-iteration-count: 3;
+    cursor: pointer;
+}
+@keyframes blink182 {
+    0% {
+        opacity: 0.25;
+    }
+    100% {
+        opacity: 1;
+    }
+    0% {
+        opacity: 0.25;
+    }
+}
+.start:hover {
+    color: orange;
+    transition: 0.25s all ease-in-out;
+}
+
+/* =======================================
+=============== WIN MODAL ================
+======================================= */
+
+.winModal {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 1);
+    background: url("assets/neon-grid.jpg") no-repeat center cover;
+    z-index: -1;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    opacity: 1;
+    display: none;
+    transition: 0.1s all ease-in-out;
+}
+
+.winModal.appear {
+    animation-name: endFade;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    display: flex;
+    z-index: 100;
+}
+@keyframes endFade {
+    0% {
+        opacity: 0.25;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.winMessage {
+    text-align: center;
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(3rem + 1vw);
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    margin-bottom: 1rem;
+    animation-name: winBiggly;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    opacity: 0;
+    line-height: 1;
+}
+@keyframes winBiggly {
+    from {
+        font-size: calc(2.5rem + 1vw);
+        z-index: 5;
+        opacity: 1;
+    }
+    50% {
+        font-size: calc(4rem + 1vw);
+        color: hotpink;
+        opacity: 1;
+    }
+    100% {
+        font-size: calc(2.5rem + 1vw);
+        opacity: 1;
+    }
+}
+
+.playAgain {
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(1rem + 1vw);
+    color: white;
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    margin: 0;
+    animation-name: blink182;
+    animation-duration: 0.5s;
+    animation-delay: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: 15;
+}
+@keyframes blink182 {
+    0% {
+        opacity: 0.25;
+    }
+    100% {
+        opacity: 1;
+    }
+    0% {
+        opacity: 0.25;
+    }
+}
+.playAgain:hover {
+    color: orange;
+    transition: 0.25s all ease-in-out;
+}
+
+/* holds the whole game 100vw/100vh */
+.gameArea {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: url(assets/80s-wallpaper.jpeg) no-repeat;
+    background-size: cover;
+    opacity: 1;
+    z-index: -2;
+}
+
+/* =======================================
+========== EXTRA PAGE ELEMENTS ===========
+======================================= */
+.wunderbar,
+.super,
+.yourock,
+.amazing {
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(4rem + 1vw);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+    background-image: -webkit-linear-gradient(
+        #378dbc 0%,
+        #b6e8f1 46%,
+        #ffffff 50%,
+        #32120e 54%,
+        #ffc488 58%,
+        #582c11 90%,
+        #ec9b4e 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px #f5f5f5;
+    font-style: italic;
+    margin: 0;
+    line-height: 1;
+}
+.wunderbar.animate,
+.super.animate,
+.yourock.animate,
+.amazing.animate {
+    animation-name: zoomInandFadeAway;
+    animation-duration: 0.75s;
+    animation-delay: 0.25s;
+    /* animation-timing-function: cubic-bezier( ); */
+    /* animation-iteration-count: 1; */
+    /* transform-origin: 50% 50%; */
+    /* will-change: transform; */
+}
+@keyframes zoomInandFadeAway {
+    from {
+        opacity: 0;
+        color: white;
+        font-size: calc(2rem + 2vw);
+        z-index: 200;
+    }
+    70% {
+        opacity: 1;
+        color: orange;
+        display: block;
+    }
+    to {
+        opacity: 0;
+        font-size: calc(8rem + 2vw);
+        display: none;
+    }
+}
+
+/* =======================================
+========== PLAYERS DETAILS ETC ===========
+======================================= */
+
+/* PLAYER DETAILS ALL AT Z-INDEX 4 */
+.credit {
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(0.5rem + 1vw);
+    position: absolute;
+    bottom: 5vh;
+    left: 5vw;
+    color: white;
+    background: none;
+    border: none;
+    z-index: 4;
+}
+.insert {
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(0.5rem + 1vw);
+    position: absolute;
+    bottom: 5vh;
+    right: 5vw;
+    color: white;
+    opacity: 0;
+    z-index: 9999;
+    animation-name: flash;
+    animation-duration: 0.5s;
+    animation-delay: 25s;
+    animation-timing-function: linear;
+    animation-iteration-count: 15;
+}
+@keyframes flash {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.copyright {
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(0.25rem + 0.9vw);
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    z-index: 4;
+    text-align: center;
+}
+.players {
+    font-family: "karmatic_arcaderegular";
+    position: absolute;
+    top: 5vh;
+    right: 5vw;
+    color: white;
+    z-index: 4;
+    text-align: right;
+    display: flex;
+}
+
+.p1,
+.p2,
+.slash {
+    font-size: calc(0.5rem + 1vw);
+    position: relative;
+    color: rgba(270, 270, 270, 1);
+    z-index: 4;
+    letter-spacing: 0.25rem;
+}
+.p1.lowOpacity,
+.p2.lowOpacity {
+    color: rgba(270, 270, 270, 0.25);
+    transition: 0.5s all ease-in-out;
+}
+.slash {
+    border-right: 2px solid orange;
+    margin: 0 1rem;
+}
+
+/* =======================================
+========== SCORES > TOP RIGHT ============
+======================================= */
+.scoreboard {
+    position: absolute;
+    top: 5vh;
+    left: 5vw;
+    display: flex;
+    flex-direction: column;
+}
+.hiScore {
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(0.5rem + 1vw);
+    color: white;
+    z-index: 4;
+    text-align: left;
+    margin-bottom: 1rem;
+}
+.p1Score,
+.p2Score {
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(0.25rem + 1vw);
+    color: white;
+    z-index: 4;
+    text-align: left;
+}
+#resetScore {
+    font-family: "karmatic_arcaderegular";
+    font-size: calc(0.25rem + 0.5vw);
+    color: white;
+    text-align: center;
+    padding: calc(0.25rem + 0.3vw);
+    border: none;
+    background: #c90b80;
+    margin-top: 1rem;
+    display: inline-block;
+    transition: 0.2s all ease-in-out;
+    border-radius: 3px;
+    z-index: 10;
+}
+#resetScore:hover {
+    cursor: pointer;
+    color: black;
+    background: rgba(270, 270, 270, 0.5);
+}
+#resetScore:focus {
+    outline: none;
+}
+
+/* =======================================
+============ CONNECT 4 AREA ==============
+======================================= */
+.boardBack {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+    width: 100vw;
+    height: 100vh;
+    /* number equivalent to 6/7vw to maintain aspect ratio */
+}
+.boardContainer {
+    z-index: 1;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    flex-direction: column;
+    width: 45vw;
+    height: calc(45vw * 0.85714286);
+}
+.board {
+    display: flex;
+    margin: auto;
+    background: url(assets/board.png) no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    overflow: hidden;
+}
+.column {
+    width: 14.28571429%;
+    height: 16.66666667%;
+    position: relative;
+    z-index: -1;
+}
+.slot {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /* background: rgba(0, 0, 0, 0.25); */
+    /* background: aqua; */
+    padding: 10%;
+    z-index: -1;
+}
+
+/* turned off background-color to see through svg bg */
+.hole {
+    width: 100%;
+    height: 100%;
+    /* background: rgba(0, 0, 0, 0); */
+    border-radius: 50%;
+}
+.column .hole:hover {
+    cursor: pointer;
+    border: 3px solid white;
+    transition: 0.25s all ease-in-out;
+    border: 0;
+    animation-name: blingBorderAnimate;
+    animation-duration: 0.4s;
+    animation-timing-function: linear;
+}
+.column .hole:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.25s all ease-in-out;
+    border: 3px solid orange;
+    border-radius: 50%;
+    animation-name: blingBorderAnimate;
+    animation-duration: 0.5s;
+    animation-delay: 0.25s;
+    animation-timing-function: linear;
+    opacity: 0;
+}
+.column .hole:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.25s all ease-in-out;
+    border: 1px solid orange;
+    border-radius: 50%;
+    animation-name: blingBorderAnimate;
+    animation-duration: 0.25s;
+    animation-delay: 0.15s;
+    animation-timing-function: linear;
+    opacity: 0;
+}
+
+@keyframes blingBorderAnimate {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    75% {
+        opacity: 1;
+        transform: scale(1.1);
+        border: 2px solid rgba(270, 270, 270, 0.75);
+        filter: blur(8px);
+        -webkit-filter: drop-shadow(2px 2px 15px #3f59f4);
+    }
+    to {
+        opacity: 0;
+        transform: scale(1.25);
+        border: 1px solid rgba(270, 270, 270, 0.15);
+    }
+}
+
+/* player 1 piece */
+.slot.player1 .hole {
+    background: rgba(246, 178, 22, 1);
+    z-index: 1;
+}
+/* player 2 piece */
+.slot.player2 .hole {
+    background: rgba(18, 206, 215, 1);
+}
+.slot.player2.fall .hole,
+.slot.player1.fall .hole {
+    animation-name: drop-animation;
+    animation: drop-animation;
+    animation-duration: 500ms;
+}
+.slot.player2.fall.victoryDancing .hole,
+.slot.player1.fall.victoryDancing .hole {
+    background: white;
+    animation-name: flashDance;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+@keyframes flashDance {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        transform: 1;
+    }
+}
+@keyframes drop-animation {
+    from {
+        transform: translateY(-500px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+.slot.player2 .hole::before,
+.slot.player1 .hole::before {
+    content: "";
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    top: 20%;
+    left: 20%;
+    border-radius: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.15) 50%,
+        transparent 100%
+    );
+    z-index: 301;
+}
+.slot.player2 .hole::after,
+.slot.player1 .hole::after {
+    content: "";
+    position: absolute;
+    width: 78%;
+    height: 78%;
+    top: 11%;
+    left: 11%;
+    border-radius: 100%;
+    background: linear-gradient(
+        to top,
+        rgba(270, 270, 270, 0.1) 40%,
+        transparent 100%
+    );
+    z-index: 301;
+}
+#top-left {
+    border-top-left-radius: 20%;
+}
+#top-right {
+    border-top-right-radius: 20%;
+}
+#bottom-left {
+    border-bottom-left-radius: 20%;
+}
+#bottom-right {
+    border-bottom-right-radius: 20%;
+}
+@media (min-width: 426px) and (max-width: 768px) {
+    .boardContainer {
+        width: 85vw;
+        height: calc(85vw * 0.85714286);
+        margin: auto;
+        padding: 0;
+    }
+    .players {
+        flex-direction: column;
+    }
+    .p1 {
+        margin-bottom: 0.5rem;
+    }
+    .wunderbar,
+    .super,
+    .yourock,
+    .amazing {
+        display: none;
+    }
+    .logo {
+        width: 50vw;
+    }
+}
+@media only screen and (max-width: 425px) {
+    .boardContainer {
+        width: 85vw;
+        height: calc(85vw * 0.85714286);
+        margin: auto;
+        padding: 0;
+    }
+    .players {
+        flex-direction: column;
+    }
+    .p1 {
+        margin-bottom: 0.5rem;
+    }
+    .wunderbar,
+    .super,
+    .yourock,
+    .amazing {
+        display: none;
+    }
+    .logo {
+        width: 75vw;
+    }
+}
