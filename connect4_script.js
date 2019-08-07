@@ -71,6 +71,7 @@ var currentPlayer = "player1";
         $("#p2Score").text(localStorage.getItem("player2"));
     });
 
+    // gameslots ;
     $(".column").on("click", function(e) {
         var diagonalSlots = [
             [0, 7, 14, 21],
@@ -218,16 +219,8 @@ var currentPlayer = "player1";
                 );
                 $("#p1Score").text(localStorage.getItem("player1"));
                 $("#p2Score").text(localStorage.getItem("player2"));
-                console.log(
-                    "CURRENT PLAYER SCORE IS ",
-                    localStorage.getItem(currentPlayer)
-                );
             } else {
                 localStorage.setItem(currentPlayer, 1);
-                console.log(
-                    "THE SCORE IS... ",
-                    localStorage.getItem(currentPlayer)
-                );
             }
             gameMusic.pause();
             setTimeout(function() {
