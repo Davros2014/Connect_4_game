@@ -47,8 +47,10 @@ $(".start").on("click", function() {
 $(".start").click(e => introMusic.pause(e));
 
 // GAME FUNCTIONALITY
-var allSlots = $(".slot");
-var currentPlayer = "player1";
+
+// VARIABLES
+var allSlots = $(".slot"),
+    currentPlayer = "player1";
 
 (function() {
     // increases credit amount
@@ -117,7 +119,7 @@ var currentPlayer = "player1";
             return;
         }
         function victoryCheck(slots) {
-            // checks if the current slot has the class of the current player - if count = 4 current player wins
+            // checks if the current slot has the class of the current player > if count = 4 current player wins
             var count = 0;
             for (var i = 0; i < slots.length; i++) {
                 if (slots.eq(i).hasClass(currentPlayer)) {
@@ -127,7 +129,7 @@ var currentPlayer = "player1";
                         // MAKE RANDOM MESSAGE APPEAR
                         animateText();
                     }
-                    if (count == 4) {
+                    if (count === 4) {
                         //  COUNT GETS TO 4 CURRENT PLAYER WINS
                         // if (slots.eq(i).hasClass(currentPlayer)) {
                         //     slots.eq(i).addClass("victoryDancing");
@@ -211,6 +213,7 @@ var currentPlayer = "player1";
             andTheWinnerIs(currentPlayer);
             return;
         }
+
         function andTheWinnerIs(player) {
             if (localStorage.getItem(currentPlayer)) {
                 localStorage.setItem(
