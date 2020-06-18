@@ -294,6 +294,11 @@
 /* =======================================
 ========== EXTRA PAGE ELEMENTS ===========
 ======================================= */
+.gogoText,
+.gogoText2,
+.gogoText3,
+.gogoText4,
+.gogoText5,
 .wunderbar,
 .super,
 .yourock,
@@ -324,6 +329,11 @@
     margin: 0;
     line-height: 1;
 }
+.gogoText.animate,
+.gogoText2.animate,
+.gogoText3.animate,
+.gogoText4.animate,
+.gogoText5.animate,
 .wunderbar.animate,
 .super.animate,
 .yourock.animate,

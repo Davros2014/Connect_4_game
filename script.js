@@ -1,24 +1,39 @@
-// Connect Four - make an app version of Connect Four.
-
-// In this game players take turns dropping their pieces into one of seven columns that have six rows of slots. The first player to get their pieces into four slots that
-
-// Your game must follow these basic rules.
-
-// The board has six rows and seven columns
-// Two players take turns selecting a column to drop their checker into
-
-// When a player wins, a message appears to announce the victory
-// After a player wins, it should be possible to reset the game and play again
-
-// ADDED JAZZ - MUSIC ETC
+var diagonalSlots = [
+    [0, 7, 14, 21],
+    [1, 8, 15, 22],
+    [8, 15, 22, 29],
+    [2, 9, 16, 23],
+    [7, 14, 21, 28],
+    [14, 21, 28, 35],
+    [6, 13, 20, 27],
+    [13, 20, 27, 34],
+    [20, 27, 34, 41],
+    [12, 19, 26, 33],
+    [19, 26, 33, 40],
+    [18, 25, 32, 39],
+    [3, 8, 13, 18],
+    [4, 9, 14, 19],
+    [9, 14, 19, 24],
+    [5, 10, 15, 20],
+    [10, 15, 20, 25],
+    [15, 20, 25, 30],
+    [11, 16, 21, 31],
+    [16, 21, 26, 31],
+    [21, 26, 31, 36],
+    [17, 22, 27, 32],
+    [22, 27, 32, 37],
+    [23, 28, 33, 38]
+];
 
 // INTRO MUSIC
+
 const introMusic = new Audio("assets/introMusic.mp3");
 $(document).ready(function() {
     introMusic.play();
 });
 
 // MAIN MUSIC ON START
+
 const gameMusic = new Audio("assets/gameMusic.mp3");
 $(".start").click(e => gameMusic.play(e));
 
@@ -33,107 +48,109 @@ $(".slot").click(e => dropSound.play(e));
 const finish = new Audio("assets/finish_him.mp3");
 const reset = new Audio("assets/reset.mp3");
 
-// RESETS GAME ON END PAGE
-$(".playAgain").on("click", function() {
-    location.reload();
-});
-
 // VICTORY MUSIC
 const victoryMusic = new Audio("assets/victoryMusic.mp3");
 
-$(".start").on("click", function() {
-    $(".introPage").addClass("animated");
-});
+// INTRO MUSIC
 $(".start").click(e => introMusic.pause(e));
 
-// GAME FUNCTIONALITY
+// RESET GAME
+
+$(".playAgain").click(e => location.reload(e));
+
+// $(".playAgain").on("click", function() {
+//     location.reload();
+// });
+
+// START GAME
+
+$(".start").click(() => $(".introPage").addClass("animated"));
+
+// $(".start").on("click", function() {
+//     $(".introPage").addClass("animated");
+// });
 
 // VARIABLES
 var allSlots = $(".slot"),
-    currentPlayer = "player1";
+    player1 = "player1",
+    player2 = "player2",
+    currPlayer = player1;
 
 (function() {
+    // var scores = {};
+
     // increases credit amount
     // $("#creditAmount").text(localStorage.getItem("creditAmount"));
-    // $("#credit").on("click", function() {
+    // $(".credit").on("click", function() {
     //     localStorage.setItem("creditAmount", 0);
     //     $("#creditAmount").text(localStorage.getItem("creditAmount"));
     // });
 
-    // retrieves player scores from local storage
-    $("#p1Score").text(localStorage.getItem("player1"));
-    $("#p2Score").text(localStorage.getItem("player2"));
+    // LOCAL STORAGE SCORES
 
-    // var currentPlayer = "player1";
+    // retrieves player scores from local storage
+    $("#p1Score").text(localStorage.getItem(player1));
+    $("#p2Score").text(localStorage.getItem(player2));
+
+    // var currPlayer = "player1";
     $("#resetScore").on("click", function(e) {
         reset.play(e);
-        localStorage.setItem("player1", 0);
-        localStorage.setItem("player2", 0);
-        $("#p1Score").text(localStorage.getItem("player1"));
-        $("#p2Score").text(localStorage.getItem("player2"));
+        localStorage.setItem(player1, 0);
+        localStorage.setItem(player2, 0);
+        $("#p1Score").text(localStorage.getItem(player1));
+        $("#p2Score").text(localStorage.getItem(player2));
     });
 
-    // gameslots ;
+    // all the winning combination in a 6x7 board - not dynamic but hey, it works;
     $(".column").on("click", function(e) {
-        var diagonalSlots = [
-            [0, 7, 14, 21],
-            [1, 8, 15, 22],
-            [8, 15, 22, 29],
-            [2, 9, 16, 23],
-            [7, 14, 21, 28],
-            [14, 21, 28, 35],
-            [6, 13, 20, 27],
-            [13, 20, 27, 34],
-            [20, 27, 34, 41],
-            [12, 19, 26, 33],
-            [19, 26, 33, 40],
-            [18, 25, 32, 39],
-            [3, 8, 13, 18],
-            [4, 9, 14, 19],
-            [9, 14, 19, 24],
-            [5, 10, 15, 20],
-            [10, 15, 20, 25],
-            [15, 20, 25, 30],
-            [11, 16, 21, 31],
-            [16, 21, 26, 31],
-            [21, 26, 31, 36],
-            [17, 22, 27, 32],
-            [22, 27, 32, 37],
-            [23, 28, 33, 38]
-        ];
-
+        // adds a chip of the current player to the board on click
         var slotsInColumn = $(e.currentTarget).find(".slot");
         for (var i = 5; i >= 0; i--) {
             if (
                 !slotsInColumn.eq(i).hasClass("player1") &&
                 !slotsInColumn.eq(i).hasClass("player2")
             ) {
+                console.log("slotsInColumn", slotsInColumn);
+
                 slotsInColumn
                     .eq(i)
-                    .addClass(currentPlayer)
+                    .addClass(currPlayer)
                     .addClass("fall");
                 break;
             }
         }
-        if (i == -1) {
+        if (i === -1) {
             return;
         }
+
+        // checks if current slot has class of current player > if count = 4, current player wins
         function victoryCheck(slots) {
-            // checks if the current slot has the class of the current player > if count = 4 current player wins
             var count = 0;
+            console.log("slots", slots);
             for (var i = 0; i < slots.length; i++) {
-                if (slots.eq(i).hasClass(currentPlayer)) {
+                if (slots.eq(i).hasClass(currPlayer)) {
                     count++;
-                    console.log("The value is ", count);
+                    slots.eq(i).hasClass(currPlayer);
+                    console.log(
+                        "Slot here is slots.eq(i).hasClass(currPlayer) ",
+                        slots.eq(i).hasClass(currPlayer),
+                        currPlayer
+                    );
+
+                    console.log("victoryCheck: The value is ", count);
                     if (count === 3) {
-                        // MAKE RANDOM MESSAGE APPEAR
+                        // Random message
                         animateText();
                     }
                     if (count === 4) {
-                        //  COUNT GETS TO 4 CURRENT PLAYER WINS
-                        // if (slots.eq(i).hasClass(currentPlayer)) {
+                        console.log(
+                            "victoryCheck count === 4: The value is ",
+                            count
+                        );
+                        //  COUNT 4 > CURRENT PLAYER WINS
+                        // if (slots.eq(i).hasClass(currPlayer)) {
                         //     slots.eq(i).addClass("victoryDancing");
-                        //     console.log("VICTORY COLOR");
+                        console.log("VICTORY COLOR");
                         // }
                         return true;
                     }
@@ -142,120 +159,165 @@ var allSlots = $(".slot"),
                 }
             }
         }
-        // player gets 3 in row >>> radomly generates a number 1-10 and gives a message of encouragement to the player
-        function animateText() {
-            var x = Math.floor(Math.random() * 10 + 1);
-            if (x <= 3) {
-                $(".super").addClass("animate");
-            } else if (x > 3 && x < 5) {
-                $(".wunderbar").addClass("animate");
-            } else if (x > 5 && x < 7) {
-                $(".yourock").addClass("animate");
-            } else $(".amazing").addClass("animate");
-            finish.play();
-            setTimeout(function() {
-                $(".wunderbar").removeClass("animate");
-                $(".super").removeClass("animate");
-                $(".amazing").removeClass("animate");
-                $(".yourock").removeClass("animate");
-            }, 1000);
-        }
+
+        // function diagonalVictoryCheck(diagonalSlots) {
+        //     var count = 0;
+        //     for (var j = 0; j < diagonalSlots.length; j++) {
+        //         if (allSlots.eq(diagonalSlots[j][0]).hasClass(currPlayer)) {
+        //             console.log("DIAGONAL ONE", count);
+        //             count++;
+        //             if (allSlots.eq(diagonalSlots[j][1]).hasClass(currPlayer)) {
+        //                 console.log("DIAGONAL TWO", count);
+        //                 count++;
+        //                 if (
+        //                     allSlots
+        //                         .eq(diagonalSlots[j][2])
+        //                         .hasClass(currPlayer)
+        //                 ) {
+        //                     if (count === 3) {
+        //                         animateText();
+        //                     } else {
+        //                         console.log("DIAGONAL THREE", count);
+        //                         count++;
+        //                     }
+        //                     if (
+        //                         allSlots
+        //                             .eq(diagonalSlots[j][3])
+        //                             .hasClass(currPlayer)
+        //                     ) {
+        //                         console.log("DIAGONAL FOUR", count);
+        //                         count++;
+        //                         console.log("that a big fat 4");
+        //                         if (count == 4) {
+        //                             //  COUNT GETS TO 4 CURRENT PLAYER WINS
+        //                             return true;
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         } else {
+        //             count = 0;
+        //         }
+        //     }
+        // }
+
+        // refactor this
         function diagonalVictoryCheck(diagonalSlots) {
+            var resetCount = count === 0;
             var count = 0;
             for (var j = 0; j < diagonalSlots.length; j++) {
-                if (allSlots.eq(diagonalSlots[j][0]).hasClass(currentPlayer)) {
-                    // console.log("DIAGONAL ONE", count);
+                if (allSlots.eq(diagonalSlots[j][0]).hasClass(currPlayer)) {
                     count++;
-                    if (
-                        allSlots.eq(diagonalSlots[j][1]).hasClass(currentPlayer)
-                    ) {
-                        // console.log("DIAGONAL TWO", count);
+                    console.log("diagonalSlots COUNT1", count);
+                    if (allSlots.eq(diagonalSlots[j][1]).hasClass(currPlayer)) {
                         count++;
+                        console.log("diagonalSlots COUNT2", count);
+
                         if (
                             allSlots
                                 .eq(diagonalSlots[j][2])
-                                .hasClass(currentPlayer)
+                                .hasClass(currPlayer)
                         ) {
-                            if (count === 3) {
-                                animateText();
-                            } else {
-                                // console.log("DIAGONAL THREE", count);
-                                count++;
-                            }
+                            count++;
+                            // console.log("diagonalSlots COUNT3", count);
+                            count === 3 ? animateText() : null;
+                            console.log("Count = 3, animate text", count);
                             if (
                                 allSlots
                                     .eq(diagonalSlots[j][3])
-                                    .hasClass(currentPlayer)
+                                    .hasClass(currPlayer)
                             ) {
-                                // console.log("DIAGONAL FOUR", count);
                                 count++;
-                                if (count == 4) {
-                                    //  COUNT GETS TO 4 CURRENT PLAYER WINS
-                                    return true;
-                                }
+                                console.log("you win");
+
+                                return true;
+                            } else {
+                                resetCount;
                             }
+                        } else {
+                            resetCount;
                         }
+                    } else {
+                        resetCount;
                     }
                 } else {
-                    count = 0;
+                    resetCount;
                 }
             }
         }
-
         // CHECKS 4 VICTORY
         if (victoryCheck(slotsInColumn)) {
-            andTheWinnerIs(currentPlayer);
+            andTheWinnerIs(currPlayer);
             return;
         } else if (victoryCheck($(".column").find(".row" + i))) {
-            andTheWinnerIs(currentPlayer);
+            andTheWinnerIs(currPlayer);
             return;
         } else if (diagonalVictoryCheck(diagonalSlots)) {
-            andTheWinnerIs(currentPlayer);
+            andTheWinnerIs(currPlayer);
             return;
         }
 
-        function andTheWinnerIs(player) {
-            if (localStorage.getItem(currentPlayer)) {
-                localStorage.setItem(
-                    currentPlayer,
-                    Number(localStorage.getItem(currentPlayer)) + 1
-                );
+        function andTheWinnerIs() {
+            const getLocal = localStorage.getItem(currPlayer);
+            if (getLocal) {
+                localStorage.setItem(currPlayer, Number(getLocal) + 1);
                 $("#p1Score").text(localStorage.getItem("player1"));
                 $("#p2Score").text(localStorage.getItem("player2"));
             } else {
-                localStorage.setItem(currentPlayer, 1);
+                localStorage.setItem(currPlayer, 1);
             }
-            gameMusic.pause();
-            setTimeout(function() {
+            // gameMusic.pause();
+
+            setTimeout(() => {
                 victoryMusic.play();
                 $(".winModal").addClass("appear");
-                console.log("hello,", player, " you big winner");
-                // $(".winMessage").append("currentplayer");
                 $(".winMessage")
-                    .html("YOU WIN " + "</br>" + "</br>" + currentPlayer)
+                    .html("YOU WIN " + "</br>" + "</br>" + currPlayer)
                     .show();
-            }, 500);
+            }, 600);
         }
         switchPlayers(); // CHANGE PLAYERS - PROCESS BEGINS AGAIN
     });
-    // switches to the current player's go
-    function switchPlayers() {
-        if (currentPlayer == "player1") {
-            currentPlayer = "player2";
-            playerTurn();
-        } else {
-            currentPlayer = "player1";
-            playerTurn();
-        }
+
+    // if player gets 3 in row > random message displays to the player
+    function animateText() {
+        var x = Math.floor(Math.random() * 11 + 1);
+        console.log("random number", x);
+        var supportText = [
+            "Wunderbar",
+            `Go, ${currPlayer}`,
+            "Super",
+            "Great",
+            "Amazing",
+            "You rock",
+            "Crazy",
+            "Insane",
+            `Wow, ${currPlayer}`,
+            "Outstanding",
+            "Unbelievable",
+            `wtf, ${currPlayer}`
+        ];
+        $(".gogoText")
+            .html(supportText[x])
+            .addClass("animate");
+        finish.play();
+        setTimeout(() => {
+            $(".gogoText").removeClass("animate");
+        }, 1000);
     }
-    // shows the current player in the top right of the screen
+    // Switches to the current player's go
+    function switchPlayers() {
+        currPlayer === player1
+            ? (currPlayer = player2)
+            : (currPlayer = player1);
+        playerTurn();
+    }
+    // Shows the current player > highlighted top right
     function playerTurn() {
-        if (currentPlayer == "player1") {
-            $(".p2").addClass("lowOpacity");
-            $(".p1").removeClass("lowOpacity");
-        } else if (currentPlayer == "player2") {
-            $(".p1").addClass("lowOpacity");
-            $(".p2").removeClass("lowOpacity");
-        }
+        currPlayer === player1
+            ? $(".p2").addClass("lowOpacity") &&
+              $(".p1").removeClass("lowOpacity")
+            : $(".p1").addClass("lowOpacity") &&
+              $(".p2").removeClass("lowOpacity");
     }
 })();
