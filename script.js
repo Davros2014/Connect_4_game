@@ -159,6 +159,7 @@ var allSlots = $(".slot"),
                 }
             }
         }
+        // refactor this
 
         // function diagonalVictoryCheck(diagonalSlots) {
         //     var count = 0;
@@ -201,7 +202,6 @@ var allSlots = $(".slot"),
         //     }
         // }
 
-        // refactor this
         function diagonalVictoryCheck(diagonalSlots) {
             var resetCount = count === 0;
             var count = 0;
