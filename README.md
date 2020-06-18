@@ -4,6 +4,8 @@ A simple web-application, 2-player version of the classic game. Inspired by a re
 
 ##### Rules: In this game players take turns dropping their pieces into one of seven columns that have six rows of slots. The first player to get their pieces into four sequential slots in a row, wins.
 
+Try the game here: https://connect-4-retro.herokuapp.com/
+
 ## Screenshots
 
 ![in-game_screenshots](https://user-images.githubusercontent.com/10245474/62635631-52cd3c80-b938-11e9-8fc3-370579a7f183.png)
