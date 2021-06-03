@@ -24,7 +24,26 @@ var diagonalSlots = [
     [22, 27, 32, 37],
     [23, 28, 33, 38]
 ];
-
+// create board - make dynamic later
+const connectBoard = document.querySelector(".board");
+const buildBoard = (rows, columns) => {
+    let board = [];
+    let column = [];
+    for (let i = 1; i <= columns; i++) {
+        let row = [];
+        for (let j = 0; j <= rows - 1; j++) {
+            row.push(`<div class="slot row${[j]}">
+                            <div class="hole"></div>
+                        </div>`);
+        }
+        column = `<div class="column col${[i]}">${row.join("")}</div>`;
+        board.push(column);
+        column = "";
+    }
+    const boardOutputToHTML = board.join("");
+    connectBoard.innerHTML = boardOutputToHTML;
+};
+buildBoard(6, 7);
 // INTRO MUSIC
 
 const introMusic = new Audio("assets/introMusic.mp3");
@@ -33,7 +52,6 @@ $(document).ready(function() {
 });
 
 // MAIN MUSIC ON START
-
 const gameMusic = new Audio("assets/gameMusic.mp3");
 $(".start").click(e => gameMusic.play(e));
 
@@ -55,15 +73,9 @@ const victoryMusic = new Audio("assets/victoryMusic.mp3");
 $(".start").click(e => introMusic.pause(e));
 
 // RESET GAME
-
 $(".playAgain").click(e => location.reload(e));
 
-// $(".playAgain").on("click", function() {
-//     location.reload();
-// });
-
 // START GAME
-
 $(".start").click(() => $(".introPage").addClass("animated"));
 
 // $(".start").on("click", function() {
@@ -87,12 +99,9 @@ var allSlots = $(".slot"),
     // });
 
     // LOCAL STORAGE SCORES
-
-    // retrieves player scores from local storage
     $("#p1Score").text(localStorage.getItem(player1));
     $("#p2Score").text(localStorage.getItem(player2));
 
-    // var currPlayer = "player1";
     $("#resetScore").on("click", function(e) {
         reset.play(e);
         localStorage.setItem(player1, 0);
@@ -110,8 +119,6 @@ var allSlots = $(".slot"),
                 !slotsInColumn.eq(i).hasClass("player1") &&
                 !slotsInColumn.eq(i).hasClass("player2")
             ) {
-                console.log("slotsInColumn", slotsInColumn);
-
                 slotsInColumn
                     .eq(i)
                     .addClass(currPlayer)
@@ -126,32 +133,27 @@ var allSlots = $(".slot"),
         // checks if current slot has class of current player > if count = 4, current player wins
         function victoryCheck(slots) {
             var count = 0;
-            console.log("slots", slots);
-            for (var i = 0; i < slots.length; i++) {
+            // console.log("slots", slots);
+            for (let i = 0; i < slots.length; i++) {
                 if (slots.eq(i).hasClass(currPlayer)) {
                     count++;
                     slots.eq(i).hasClass(currPlayer);
-                    console.log(
-                        "Slot here is slots.eq(i).hasClass(currPlayer) ",
-                        slots.eq(i).hasClass(currPlayer),
-                        currPlayer
-                    );
+                    // console.log(
+                    //     "Slot here is slots.eq(i).hasClass(currPlayer) ",
+                    //     slots.eq(i).hasClass(currPlayer),
+                    //     currPlayer
+                    // );
 
-                    console.log("victoryCheck: The value is ", count);
+                    // console.log("victoryCheck: The value is ", count);
                     if (count === 3) {
                         // Random message
                         animateText();
                     }
                     if (count === 4) {
-                        console.log(
-                            "victoryCheck count === 4: The value is ",
-                            count
-                        );
-                        //  COUNT 4 > CURRENT PLAYER WINS
-                        // if (slots.eq(i).hasClass(currPlayer)) {
-                        //     slots.eq(i).addClass("victoryDancing");
-                        console.log("VICTORY COLOR");
-                        // }
+                        // console.log(
+                        //     "victoryCheck count === 4: The value is ",
+                        //     count
+                        // );
                         return true;
                     }
                 } else {
@@ -203,25 +205,22 @@ var allSlots = $(".slot"),
         // }
 
         function diagonalVictoryCheck(diagonalSlots) {
-            var resetCount = count === 0;
             var count = 0;
             for (var j = 0; j < diagonalSlots.length; j++) {
                 if (allSlots.eq(diagonalSlots[j][0]).hasClass(currPlayer)) {
                     count++;
-                    console.log("diagonalSlots COUNT1", count);
+                    // console.log("diagonalSlots COUNT1", count);
                     if (allSlots.eq(diagonalSlots[j][1]).hasClass(currPlayer)) {
                         count++;
-                        console.log("diagonalSlots COUNT2", count);
-
+                        // console.log("diagonalSlots COUNT2", count);
                         if (
                             allSlots
                                 .eq(diagonalSlots[j][2])
                                 .hasClass(currPlayer)
                         ) {
                             count++;
-                            // console.log("diagonalSlots COUNT3", count);
                             count === 3 ? animateText() : null;
-                            console.log("Count = 3, animate text", count);
+                            // console.log("Count = 3, animate text", count);
                             if (
                                 allSlots
                                     .eq(diagonalSlots[j][3])
@@ -229,19 +228,18 @@ var allSlots = $(".slot"),
                             ) {
                                 count++;
                                 console.log("you win");
-
                                 return true;
                             } else {
-                                resetCount;
+                                count = 0;
                             }
                         } else {
-                            resetCount;
+                            count = 0;
                         }
                     } else {
-                        resetCount;
+                        count = 0;
                     }
                 } else {
-                    resetCount;
+                    count = 0;
                 }
             }
         }
@@ -274,7 +272,7 @@ var allSlots = $(".slot"),
                 $(".winMessage")
                     .html("YOU WIN " + "</br>" + "</br>" + currPlayer)
                     .show();
-            }, 600);
+            }, 1000);
         }
         switchPlayers(); // CHANGE PLAYERS - PROCESS BEGINS AGAIN
     });
@@ -282,7 +280,6 @@ var allSlots = $(".slot"),
     // if player gets 3 in row > random message displays to the player
     function animateText() {
         var x = Math.floor(Math.random() * 11 + 1);
-        console.log("random number", x);
         var supportText = [
             "Wunderbar",
             `Go, ${currPlayer}`,
@@ -303,7 +300,7 @@ var allSlots = $(".slot"),
         finish.play();
         setTimeout(() => {
             $(".gogoText").removeClass("animate");
-        }, 1000);
+        }, 1200);
     }
     // Switches to the current player's go
     function switchPlayers() {

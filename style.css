@@ -304,7 +304,7 @@
 .yourock,
 .amazing {
     font-family: "karmatic_arcaderegular";
-    font-size: calc(4rem + 1vw);
+    font-size: calc(2rem + 2vw);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -360,7 +360,7 @@
     }
     to {
         opacity: 0;
-        font-size: calc(8rem + 2vw);
+        font-size: clamp(5rem, 12vw, 32rem);
         display: none;
     }
 }
