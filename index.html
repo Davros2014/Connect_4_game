@@ -8,31 +8,20 @@
         <title>Connect 4</title>
     </head>
     <body>
-        <div id="introPage" class="introPage">
+        <section id="introPage" class="introPage">
             <div class="introContainer">
                 <h1 class="spiced">Spiced presents</h1>
                 <img class="logo" src="assets/logo_c4.png" alt="" />
                 <h4 class="start">Press start</h4>
-                <!-- <h4 class="start">Insert Coin</h4>
-                <input class="class="start">start" type="text" name="credit" value="credit" />
-                <button class="start" type="submit" name="button">
-                    Insert Coin
-                </button> -->
             </div>
-        </div>
-
-        <!-- WIN MODAL -->
-        <div class="winModal">
+        </section>
+        <section class="winModal">
             <div class="winMessage"></div>
             <div class="playAgain">TRY AGAIN?</div>
-        </div>
-
-        <!-- GAME PAGE -->
-        <div class="gameArea">
-            <!-- SUPPORTING TEXT -->
+        </section>
+        <section class="gameArea">
             <h1 class="gogoText"></h1>
 
-            <!-- PLAYERS DETAILS ETC -->
             <div class="players">
                 <h2 class="p1">Player One</h2>
                 <span class="slash"></span>
@@ -47,19 +36,20 @@
                     Reset scores
                 </button>
             </div>
+
             <button type="button" id="credit" class="credit">
                 Credit <span id="creditAmount">0</span>
             </button>
+
             <h2 class="insert">Insert Coin</h2>
             <h2 class="copyright">2019 SPICED</h2>
 
-            <!-- CONNECT 4 BOARD -->
             <div class="boardBack">
                 <div class="boardContainer">
                     <div class="board"></div>
                 </div>
             </div>
-        </div>
+        </section>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="script.js" charset="utf-8"></script>
     </body>
