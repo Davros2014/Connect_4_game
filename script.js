@@ -116,7 +116,6 @@ let allSlots = $(".slot"),
                                     .hasClass(currPlayer)
                             ) {
                                 count++;
-                                // console.log("you win");
                                 return true;
                             } else {
                                 count = 0;
